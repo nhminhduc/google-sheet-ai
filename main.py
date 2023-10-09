@@ -16,6 +16,23 @@ def create_save_to_clipboard(button_key, state_key):
 
 
 def main():
+    # Define the custom CSS
+    custom_css = """
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+            
+            body {
+                font-family: 'Open Sans', sans-serif;
+            }
+            h1, h2, h3, h4, h5, h6 {
+                font-family: 'Poppins', sans-serif;
+            }
+        </style>
+    """
+
+    # Inject custom CSS into the Streamlit app
+    st.markdown(custom_css, unsafe_allow_html=True)
     st.title("Google Sheet Data")
 
     data = fetch_data()
