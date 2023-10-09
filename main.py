@@ -4,6 +4,17 @@ from core.OpenAI import llm_run
 import pyperclip
 
 
+def create_save_to_clipboard(button_key, state_key):
+    left_column, right_column = st.columns([5, 1])
+    with left_column:
+        st.write(
+            "Before ending your session, ensure you've saved all necessary information. Use the button below to copy the above refined output fields to your clipboard."
+        )
+    with right_column:
+        if st.button("Save to Clipboard", key=button_key):
+            pyperclip.copy(st.session_state[state_key])
+
+
 def main():
     st.title("Google Sheet Data")
 
@@ -42,19 +53,12 @@ def main():
         value=st.session_state.get("product_overview", ""),
     )
 
-    left_column, right_column = st.columns([5, 1])
-
-    with left_column:
-        st.write(
-            "Before endoing your session, ensure you've saved all necessary information. Use the button below to copy the above refined output fields to your clipboard."
-        )
-    with right_column:
-        if st.button("Save to Clipboard", key="copy_btn_1"):
-            pyperclip.copy(st.session_state.product_overview)
+    create_save_to_clipboard(f"copy_btn_1", data[0]["name"])
 
     if "vision_mission" not in st.session_state:
         st.session_state.vision_mission = ""
 
+    left_column, right_column = st.columns([5, 1])
     with left_column:
         st.write(data[1]["button_label"])
     with right_column:
@@ -63,7 +67,10 @@ def main():
                 model=data[1]["model"],
                 temperature=data[1]["temperature"],
                 template=data[1]["prompt"],
-                product_overview=st.session_state.product_overview,
+                **{
+                    k: st.session_state.get(k, "")
+                    for k in data[1]["input_params"].split(",")
+                },
             )
 
     st.session_state.vision_mission = st.text_area(
@@ -73,15 +80,7 @@ def main():
         value=st.session_state.get("vision_mission", ""),
     )
 
-    left_column, right_column = st.columns([5, 1])
-
-    with left_column:
-        st.write(
-            "Before endoing your session, ensure you've saved all necessary information. Use the button below to copy the above refined output fields to your clipboard."
-        )
-    with right_column:
-        if st.button("Save to Clipboard", key="copy_btn_2"):
-            pyperclip.copy(st.session_state.vision_mission)
+    create_save_to_clipboard(f"copy_btn_2", data[1]["name"])
 
     if "product_overview_improved" not in st.session_state:
         st.session_state.product_overview_improved = ""
@@ -96,8 +95,10 @@ def main():
                 model=data[2]["model"],
                 temperature=data[2]["temperature"],
                 template=data[2]["prompt"],
-                product_overview=st.session_state.product_overview,
-                vision_mission=st.session_state.vision_mission,
+                **{
+                    k: st.session_state.get(k, "")
+                    for k in data[2]["input_params"].split(",")
+                },
             )
 
     st.session_state.product_overview_improved = st.text_area(
@@ -108,19 +109,12 @@ def main():
         value=st.session_state.get("product_overview_improved", ""),
     )
 
-    left_column, right_column = st.columns([5, 1])
+    create_save_to_clipboard(f"copy_btn_3", data[2]["name"])
 
     if "technology_list" not in st.session_state:
         st.session_state.technology_list = ""
 
-    with left_column:
-        st.write(
-            "Before endoing your session, ensure you've saved all necessary information. Use the button below to copy the above refined output fields to your clipboard."
-        )
-    with right_column:
-        if st.button("Save to Clipboard", key="copy_btn_3"):
-            pyperclip.copy(st.session_state.product_overview_improved)
-
+    left_column, right_column = st.columns([5, 1])
     with left_column:
         st.write(data[3]["button_label"])
     with right_column:
@@ -129,8 +123,10 @@ def main():
                 model=data[3]["model"],
                 temperature=data[3]["temperature"],
                 template=data[3]["prompt"],
-                product_overview_improved=st.session_state.product_overview_improved,
-                vision_mission=st.session_state.vision_mission,
+                **{
+                    k: st.session_state.get(k, "")
+                    for k in data[3]["input_params"].split(",")
+                },
             )
 
     st.session_state.technology_list = st.text_area(
@@ -140,17 +136,10 @@ def main():
         value=st.session_state.get("technology_list", ""),
     )
 
+    create_save_to_clipboard(f"copy_btn_4", data[3]["name"])
+
     if "innovation_list" not in st.session_state:
         st.session_state.innovation_list = ""
-
-    left_column, right_column = st.columns([5, 1])
-    with left_column:
-        st.write(
-            "Before endoing your session, ensure you've saved all necessary information. Use the button below to copy the above refined output fields to your clipboard."
-        )
-    with right_column:
-        if st.button("Save to Clipboard", key="copy_btn_4"):
-            pyperclip.copy(st.session_state.technology_list)
 
     st.write(data[4]["button_label"])
     left_column, right_column = st.columns([5, 1])
@@ -160,9 +149,10 @@ def main():
                 model=data[4]["model"],
                 temperature=data[4]["temperature"],
                 template=data[4]["prompt"],
-                technology_list=st.session_state.technology_list,
-                product_overview_improved=st.session_state.product_overview_improved,
-                vision_mission=st.session_state.vision_mission,
+                **{
+                    k: st.session_state.get(k, "")
+                    for k in data[4]["input_params"].split(",")
+                },
             )
 
     st.session_state.innovation_list = st.text_area(
@@ -172,17 +162,10 @@ def main():
         value=st.session_state.get("innovation_list", ""),
     )
 
+    create_save_to_clipboard(f"copy_btn_5", data[4]["name"])
+
     if "task_list" not in st.session_state:
         st.session_state.task_list = ""
-
-    left_column, right_column = st.columns([5, 1])
-    with left_column:
-        st.write(
-            "Before endoing your session, ensure you've saved all necessary information. Use the button below to copy the above refined output fields to your clipboard."
-        )
-    with right_column:
-        if st.button("Save to Clipboard", key="copy_btn_5"):
-            pyperclip.copy(st.session_state.innovation_list)
 
     st.write(data[5]["button_label"])
     left_column, right_column = st.columns([5, 1])
@@ -192,9 +175,10 @@ def main():
                 model=data[5]["model"],
                 temperature=data[5]["temperature"],
                 template=data[5]["prompt"],
-                technology_list=st.session_state.technology_list,
-                product_overview_improved=st.session_state.product_overview_improved,
-                vision_mission=st.session_state.vision_mission,
+                **{
+                    k: st.session_state.get(k, "")
+                    for k in data[5]["input_params"].split(",")
+                },
             )
 
     st.session_state.task_list = st.text_area(
@@ -204,14 +188,7 @@ def main():
         value=st.session_state.get("task_list", ""),
     )
 
-    left_column, right_column = st.columns([5, 1])
-    with left_column:
-        st.write(
-            "Before endoing your session, ensure you've saved all necessary information. Use the button below to copy the above refined output fields to your clipboard."
-        )
-    with right_column:
-        if st.button("Save to Clipboard", key="copy_btn_6"):
-            pyperclip.copy(st.session_state.task_list)
+    create_save_to_clipboard(f"copy_btn_6", data[5]["name"])
 
 
 if __name__ == "__main__":
