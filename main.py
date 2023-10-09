@@ -15,7 +15,7 @@ def main():
 
     # Text Input Area
     input_string = st.text_area(
-        data[0]["button_label"],
+        "Initial Text or Notes",
         key="text_area_0",
         placeholder="Enter any available text bout the company. This could be excerpts from their website, notes from meetings, or any other relevant material that can serve as a foundation for the knowledge base.",
     )
@@ -70,11 +70,12 @@ def main():
     if "product_overview_improved" not in st.session_state:
         st.session_state.product_overview_improved = ""
 
-    with left_column:
-        st.write(data[2]["button_label"])
-        st.write(data[2]["name"])
-    with right_column:
-        if st.button("Generate", key="btn_generate_3"):
+    left_column, middle_column, right_column = st.columns([1, 4, 1])
+
+    with middle_column:
+        if st.button(
+            data[2]["button_label"], key="btn_generate_3", use_container_width=True
+        ):
             st.session_state.product_overview_improved = llm_run(
                 model=data[2]["model"],
                 temperature=data[2]["temperature"],
@@ -124,13 +125,11 @@ def main():
         value=st.session_state.get("technology_list", ""),
     )
 
-    left_column, right_column = st.columns([5, 1])
-
     if "innovation_list" not in st.session_state:
         st.session_state.innovation_list = ""
 
-    with left_column:
-        st.write(data[4]["button_label"])
+    st.write(data[4]["button_label"])
+    left_column, right_column = st.columns([5, 1])
     with right_column:
         if st.button("Generate", key="btn_generate_5"):
             st.session_state.innovation_list = llm_run(
@@ -149,13 +148,11 @@ def main():
         value=st.session_state.get("innovation_list", ""),
     )
 
-    left_column, right_column = st.columns([5, 1])
-
     if "task_list" not in st.session_state:
         st.session_state.task_list = ""
 
-    with left_column:
-        st.write(data[5]["button_label"])
+    st.write(data[5]["button_label"])
+    left_column, right_column = st.columns([5, 1])
     with right_column:
         if st.button("Generate", key="btn_generate_6"):
             st.session_state.task_list = llm_run(
