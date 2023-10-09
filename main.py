@@ -1,7 +1,10 @@
+import os
 import streamlit as st
+import streamlit_analytics
+import pyperclip
+
 from core.GoogleSheetPublic import fetch_data
 from core.OpenAI import llm_run
-import pyperclip
 
 
 def apply_custom_css():
@@ -164,4 +167,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    with streamlit_analytics.track(
+        unsafe_password=os.environ.get("ANALYTICS_PASSWORD")
+    ):
+        main()
