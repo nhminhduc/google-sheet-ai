@@ -12,6 +12,7 @@ pandas = "*"
 langchain = "*"
 openai = "*"
 streamlit = "*"
+pyperclip = "*"
 
 [dev-packages]
 
