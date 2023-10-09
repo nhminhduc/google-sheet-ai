@@ -72,12 +72,13 @@ def main():
 
     with left_column:
         st.write(data[2]["button_label"])
+        st.write(data[2]["name"])
     with right_column:
         if st.button("Generate", key="btn_generate_3"):
             st.session_state.product_overview_improved = llm_run(
-                model=data[1]["model"],
-                temperature=data[1]["temperature"],
-                template=data[1]["prompt"],
+                model=data[2]["model"],
+                temperature=data[2]["temperature"],
+                template=data[2]["prompt"],
                 product_overview=st.session_state.product_overview,
                 vision_mission=st.session_state.vision_mission,
             )
@@ -100,9 +101,9 @@ def main():
     with right_column:
         if st.button("Regenerate", key="btn_generate_4"):
             st.session_state.technology_list = llm_run(
-                model=data[1]["model"],
-                temperature=data[1]["temperature"],
-                template=data[1]["prompt"],
+                model=data[3]["model"],
+                temperature=data[3]["temperature"],
+                template=data[3]["prompt"],
                 product_overview_improved=st.session_state.product_overview_improved,
                 vision_mission=st.session_state.vision_mission,
             )
@@ -133,9 +134,9 @@ def main():
     with right_column:
         if st.button("Generate", key="btn_generate_5"):
             st.session_state.innovation_list = llm_run(
-                model=data[1]["model"],
-                temperature=data[1]["temperature"],
-                template=data[1]["prompt"],
+                model=data[4]["model"],
+                temperature=data[4]["temperature"],
+                template=data[4]["prompt"],
                 technology_list=st.session_state.technology_list,
                 product_overview_improved=st.session_state.product_overview_improved,
                 vision_mission=st.session_state.vision_mission,
@@ -158,9 +159,9 @@ def main():
     with right_column:
         if st.button("Generate", key="btn_generate_6"):
             st.session_state.task_list = llm_run(
-                model=data[1]["model"],
-                temperature=data[1]["temperature"],
-                template=data[1]["prompt"],
+                model=data[5]["model"],
+                temperature=data[5]["temperature"],
+                template=data[5]["prompt"],
                 technology_list=st.session_state.technology_list,
                 product_overview_improved=st.session_state.product_overview_improved,
                 vision_mission=st.session_state.vision_mission,
