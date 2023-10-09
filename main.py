@@ -11,7 +11,7 @@ def create_save_to_clipboard(button_key, state_key):
             "Before ending your session, ensure you've saved all necessary information. Use the button below to copy the above refined output fields to your clipboard."
         )
     with right_column:
-        if st.button("Save to Clipboard", key=button_key):
+        if st.button("Save to Clipboard", key=button_key, use_container_width=True):
             pyperclip.copy(st.session_state[state_key])
 
 
@@ -118,7 +118,7 @@ def main():
     with left_column:
         st.write(data[3]["button_label"])
     with right_column:
-        if st.button("Regenerate", key="btn_generate_4"):
+        if st.button("Regenerate", key="btn_generate_4", use_container_width=True):
             st.session_state.technology_list = llm_run(
                 model=data[3]["model"],
                 temperature=data[3]["temperature"],
