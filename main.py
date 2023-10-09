@@ -24,6 +24,23 @@ def apply_custom_css():
     st.markdown(custom_css, unsafe_allow_html=True)
 
 
+def apply_analytics():
+    """
+    Applies analytics to the app.
+    """
+    ga_code = """
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZ0GF3XPK5"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EZ0GF3XPK5');
+    </script>
+    """
+    st.markdown(ga_code, unsafe_allow_html=True)
+
+
 def create_save_to_clipboard(button_key, state_key):
     """
     Generates 'Save to Clipboard' functionality.
@@ -114,6 +131,7 @@ def handle_button_and_llm_run(data_item, position="left"):
 
 
 def main():
+    apply_analytics()
     apply_custom_css()
     st.title("Google Sheet Data")
 
