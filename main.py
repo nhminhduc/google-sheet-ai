@@ -27,7 +27,7 @@ def main():
     with left_column:
         st.write(data[0]["button_label"])
     with right_column:
-        if st.button("Generate", key="btn_generate_1"):
+        if st.button("Generate", key="btn_generate_1", use_container_width=True):
             st.session_state.product_overview = llm_run(
                 model=data[0]["model"],
                 temperature=data[0]["temperature"],
@@ -44,13 +44,21 @@ def main():
 
     left_column, right_column = st.columns([5, 1])
 
+    with left_column:
+        st.write(
+            "Before endoing your session, ensure you've saved all necessary information. Use the button below to copy the above refined output fields to your clipboard."
+        )
+    with right_column:
+        if st.button("Save to Clipboard", key="copy_btn_1"):
+            pyperclip.copy(st.session_state.product_overview)
+
     if "vision_mission" not in st.session_state:
         st.session_state.vision_mission = ""
 
     with left_column:
         st.write(data[1]["button_label"])
     with right_column:
-        if st.button("Generate", key="btn_generate_2"):
+        if st.button("Generate", key="btn_generate_2", use_container_width=True):
             st.session_state.vision_mission = llm_run(
                 model=data[1]["model"],
                 temperature=data[1]["temperature"],
@@ -66,6 +74,14 @@ def main():
     )
 
     left_column, right_column = st.columns([5, 1])
+
+    with left_column:
+        st.write(
+            "Before endoing your session, ensure you've saved all necessary information. Use the button below to copy the above refined output fields to your clipboard."
+        )
+    with right_column:
+        if st.button("Save to Clipboard", key="copy_btn_2"):
+            pyperclip.copy(st.session_state.vision_mission)
 
     if "product_overview_improved" not in st.session_state:
         st.session_state.product_overview_improved = ""
@@ -98,6 +114,14 @@ def main():
         st.session_state.technology_list = ""
 
     with left_column:
+        st.write(
+            "Before endoing your session, ensure you've saved all necessary information. Use the button below to copy the above refined output fields to your clipboard."
+        )
+    with right_column:
+        if st.button("Save to Clipboard", key="copy_btn_3"):
+            pyperclip.copy(st.session_state.product_overview_improved)
+
+    with left_column:
         st.write(data[3]["button_label"])
     with right_column:
         if st.button("Regenerate", key="btn_generate_4"):
@@ -109,15 +133,6 @@ def main():
                 vision_mission=st.session_state.vision_mission,
             )
 
-    with left_column:
-        st.write(
-            "Before endoing your session, ensure you've saved all necessary information. Use the button below to copy the refined output fields to your clipboard."
-        )
-    # Add save to clip board button here to save the product_overview_improved
-    with right_column:
-        if st.button("Save to Clipboard"):
-            pyperclip.copy(st.session_state.product_overview_improved)
-
     st.session_state.technology_list = st.text_area(
         "technology_list",
         label_visibility="collapsed",
@@ -128,10 +143,19 @@ def main():
     if "innovation_list" not in st.session_state:
         st.session_state.innovation_list = ""
 
+    left_column, right_column = st.columns([5, 1])
+    with left_column:
+        st.write(
+            "Before endoing your session, ensure you've saved all necessary information. Use the button below to copy the above refined output fields to your clipboard."
+        )
+    with right_column:
+        if st.button("Save to Clipboard", key="copy_btn_4"):
+            pyperclip.copy(st.session_state.technology_list)
+
     st.write(data[4]["button_label"])
     left_column, right_column = st.columns([5, 1])
     with right_column:
-        if st.button("Generate", key="btn_generate_5"):
+        if st.button("Generate", key="btn_generate_5", use_container_width=True):
             st.session_state.innovation_list = llm_run(
                 model=data[4]["model"],
                 temperature=data[4]["temperature"],
@@ -151,10 +175,19 @@ def main():
     if "task_list" not in st.session_state:
         st.session_state.task_list = ""
 
+    left_column, right_column = st.columns([5, 1])
+    with left_column:
+        st.write(
+            "Before endoing your session, ensure you've saved all necessary information. Use the button below to copy the above refined output fields to your clipboard."
+        )
+    with right_column:
+        if st.button("Save to Clipboard", key="copy_btn_5"):
+            pyperclip.copy(st.session_state.innovation_list)
+
     st.write(data[5]["button_label"])
     left_column, right_column = st.columns([5, 1])
     with right_column:
-        if st.button("Generate", key="btn_generate_6"):
+        if st.button("Generate", key="btn_generate_6", use_container_width=True):
             st.session_state.task_list = llm_run(
                 model=data[5]["model"],
                 temperature=data[5]["temperature"],
@@ -170,6 +203,15 @@ def main():
         key="text_area_6",
         value=st.session_state.get("task_list", ""),
     )
+
+    left_column, right_column = st.columns([5, 1])
+    with left_column:
+        st.write(
+            "Before endoing your session, ensure you've saved all necessary information. Use the button below to copy the above refined output fields to your clipboard."
+        )
+    with right_column:
+        if st.button("Save to Clipboard", key="copy_btn_6"):
+            pyperclip.copy(st.session_state.task_list)
 
 
 if __name__ == "__main__":
