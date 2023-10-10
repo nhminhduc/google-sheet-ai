@@ -1,4 +1,7 @@
 import os
+import pathlib
+import shutil
+from bs4 import BeautifulSoup
 import streamlit as st
 import streamlit_analytics
 
@@ -33,23 +36,40 @@ def apply_analytics():
     """
     Applies analytics to the app.
     """
-    ga_code = """
-    <!-- Default Statcounter code for AI sheets
-    https://ai-prompt-sheet.streamlit.app/ -->
-    <script type="text/javascript">
-    var sc_project=12930144; 
-    var sc_invisible=1; 
-    var sc_security="7a98941a"; 
-    </script>
-    <script type="text/javascript"
-    src="https://www.statcounter.com/counter/counter.js" async></script>
-    <noscript><div class="statcounter"><a title="Web Analytics"
-    href="https://statcounter.com/" target="_blank"><img class="statcounter"
-    src="https://c.statcounter.com/12930144/0/7a98941a/1/" alt="Web Analytics"
-    referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
-    <!-- End of Statcounter Code -->
+
+
+def inject_ga():
+    """Add this in your streamlit app.py
+    see https://github.com/streamlit/streamlit/issues/969
     """
-    st.markdown(ga_code, unsafe_allow_html=True)
+    # new tag method
+    GA_ID = "google_analytics"
+    # NOTE: you should add id="google_analytics" value in the GA script
+    # https://developers.google.com/analytics/devguides/collection/analyticsjs
+    GA_JS = """
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZ0GF3XPK5"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-EZ0GF3XPK5');
+    </script>
+    """
+
+    # Insert the script in the head tag of the static template inside your virtual
+    index_path = pathlib.Path(st.__file__).parent / "static" / "index.html"
+    soup = BeautifulSoup(index_path.read_text(), features="lxml")
+    if not soup.find(id=GA_ID):  # if cannot find tag
+        bck_index = index_path.with_suffix(".bck")
+        if bck_index.exists():
+            shutil.copy(bck_index, index_path)  # recover from backup
+        else:
+            shutil.copy(index_path, bck_index)  # keep a backup
+        html = str(soup)
+        new_html = html.replace("<head>", "<head>\n" + GA_JS)
+        index_path.write_text(new_html)
 
 
 def create_save_to_clipboard(button_key, state_key):
@@ -220,10 +240,6 @@ def main():
 
 if __name__ == "__main__":
     st.set_page_config("Grants OneShot")
-    with open("google_analytics.html", "r") as f:
-        html_code = f.read()
-        st.components.v1.html.html(html_code, height=0)
-
     with streamlit_analytics.track(
         unsafe_password=os.environ.get("ANALYTICS_PASSWORD")
     ):

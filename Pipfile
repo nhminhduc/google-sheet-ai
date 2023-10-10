@@ -13,6 +13,7 @@ langchain = "*"
 openai = "*"
 streamlit = "*"
 streamlit-analytics = "*"
+beautifulsoup4 = "*"
 
 [dev-packages]
 
