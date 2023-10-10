@@ -75,6 +75,7 @@ def inject_ga():
         gtag('config', 'G-EZ0GF3XPK5');
     </script>
     <div id="G-EZ0GF3XPK5"></div>
+    <img src="https://www.google-analytics.com/collect?v=2&tid=G-EZ0GF3XPK5&cid=555&t=event&en=eventName">
     """
     analytics_id = "G-EZ0GF3XPK5"
 
