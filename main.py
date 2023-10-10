@@ -78,19 +78,7 @@ def inject_ga():
     gtag('config', 'G-EZ0GF3XPK5');
     </script>
     """
-
-    # Insert the script in the head tag of the static template inside your virtual
-    index_path = pathlib.Path(st.__file__).parent / "static" / "index.html"
-    soup = BeautifulSoup(index_path.read_text(), features="lxml")
-    if not soup.find(id=GA_ID):  # if cannot find tag
-        bck_index = index_path.with_suffix(".bck")
-        if bck_index.exists():
-            shutil.copy(bck_index, index_path)  # recover from backup
-        else:
-            shutil.copy(index_path, bck_index)  # keep a backup
-        html = str(soup)
-        new_html = html.replace("<head>", "<head>\n" + GA_JS)
-        index_path.write_text(new_html)
+    st.components.v1.html(GA_JS, height=0, width=0)
 
 
 def create_save_to_clipboard(button_key, state_key):
@@ -225,6 +213,7 @@ def handle_button_and_llm_run(data_item, position="left"):
 
 
 def main():
+    inject_ga()
     apply_analytics()
     apply_custom_css()
 
@@ -260,7 +249,6 @@ def main():
 
 
 if __name__ == "__main__":
-    inject_ga()
     st.set_page_config("Grants OneShot")
     with streamlit_analytics.track(
         unsafe_password=os.environ.get("ANALYTICS_PASSWORD")
