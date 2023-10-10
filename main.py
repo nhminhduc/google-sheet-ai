@@ -36,7 +36,7 @@ def apply_analytics():
     """
     Applies analytics to the app.
     """
-    st.components.v1.html(
+    st.components.v1.iframe(
         """<!-- Default Statcounter code for AI sheets
     https://ai-prompt-sheet.streamlit.app/ -->
     <script type="text/javascript">
@@ -63,22 +63,33 @@ def inject_ga():
     """Add this in your streamlit app.py
     see https://github.com/streamlit/streamlit/issues/969
     """
-    # new tag method
-    GA_ID = "google_analytics"
-    # NOTE: you should add id="google_analytics" value in the GA script
-    # https://developers.google.com/analytics/devguides/collection/analyticsjs
-    GA_JS = """
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZ0GF3XPK5" >id="google_analytics"</script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    # replace G-EZ0GF3XPK5 to your web app's ID
 
-    gtag('config', 'G-EZ0GF3XPK5');
+    analytics_js = """
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZ0GF3XPK5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EZ0GF3XPK5');
     </script>
+    <div id="G-EZ0GF3XPK5"></div>
     """
-    st.components.v1.iframe(GA_JS, height=1, width=1)
+    analytics_id = "G-EZ0GF3XPK5"
+
+    # Identify html path of streamlit
+    index_path = pathlib.Path(st.__file__).parent / "static" / "index.html"
+    soup = BeautifulSoup(index_path.read_text(), features="html.parser")
+    if not soup.find(id=analytics_id):  # if id not found within html file
+        bck_index = index_path.with_suffix(".bck")
+        if bck_index.exists():
+            shutil.copy(bck_index, index_path)  # backup recovery
+        else:
+            shutil.copy(index_path, bck_index)  # save backup
+        html = str(soup)
+        new_html = html.replace("<head>", "<head>\n" + analytics_js)
+        index_path.write_text(new_html)  # insert analytics tag at top of head
 
 
 def create_save_to_clipboard(button_key, state_key):
