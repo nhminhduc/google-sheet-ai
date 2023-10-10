@@ -34,23 +34,7 @@ def apply_analytics():
     Applies analytics to the app.
     """
     st.components.v1.iframe(
-        """<!-- Default Statcounter code for AI sheets
-    https://ai-prompt-sheet.streamlit.app/ -->
-    <script crossorigin='anonymous' type="text/javascript">
-    var sc_project=12930144; 
-    var sc_invisible=1; 
-    var sc_security="7a98941a"; 
-    </script>
-    <script crossorigin='anonymous' type="text/javascript"
-    src="https://www.statcounter.com/counter/counter.js"
-    async></script>
-    <noscript><div class="statcounter"><a title="Web Analytics"
-    href="https://statcounter.com/" target="_blank"><img
-    class="statcounter"
-    src="https://c.statcounter.com/12930144/0/7a98941a/1/"
-    alt="Web Analytics"
-    referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
-    <!-- End of Statcounter Code -->""",
+        "https://nhminhduc.github.io/google-sheet-ai/",
         width=1,
         height=1,
     )
