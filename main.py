@@ -220,6 +220,10 @@ def main():
 
 if __name__ == "__main__":
     st.set_page_config("Grants OneShot")
+    with open("google_analytics.html", "r") as f:
+        html_code = f.read()
+        st.components.v1.html.html(html_code, height=0)
+
     with streamlit_analytics.track(
         unsafe_password=os.environ.get("ANALYTICS_PASSWORD")
     ):
