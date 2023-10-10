@@ -52,13 +52,22 @@ def create_save_to_clipboard(button_key, state_key):
     """
     left_column, right_column = st.columns([5, 1])
     with left_column:
-        st.write(
-            "Ensure you've saved all necessary information. Press the button to copy the above refined output fields to the clipboard."
+        st.markdown(
+            """
+            <style>
+            .small-font {
+                font-size: 0.8rem;
+            }
+            </style>
+            <p class='small-font'>Ensure you've saved all necessary information. Press the button to copy the above refined output fields to the clipboard.</p>
+            """,
+            unsafe_allow_html=True,
         )
+
     with right_column:
         st.components.v1.html(
             f"""
-            <textarea id='{button_key}' readonly style='height:0;overflow:hidden;visibility:hidden;'>{st.session_state[state_key]}</textarea>
+            <textarea id='{button_key}' readonly style='height:0;overflow:hidden;display:none;'>{st.session_state[state_key]}</textarea>
             <button onclick='copyToClipboard()' class='streamlit-button'>OneShot Copy to Clipboard</button>
             <script>
                 function copyToClipboard() {{
@@ -72,8 +81,9 @@ def create_save_to_clipboard(button_key, state_key):
                     border: 1px solid rgba(255, 255, 255, 0.2);
                     border-radius: 0.5rem;
                     padding: .5rem;
-                    font-size: 0.9rem;
+                    font-size: 0.7rem;
                     cursor: pointer;
+                    margin-top: -0.5rem;
                 }}
                 .streamlit-button:hover {{
                     border-color: rgb(61, 73, 160);
@@ -88,7 +98,7 @@ def create_save_to_clipboard(button_key, state_key):
             </style>
             """,
             width=114,
-            height=100,
+            height=50,
         )
 
 
@@ -174,7 +184,7 @@ def main():
     data = fetch_data()
 
     st.write(
-        """Navigating the complexities of grant applications requires a robust and informed knowledge base about the company in question. This dedicated platform empowers consultants to craft a nuanced, detailed, and tailored profile of the company, laying the foundation for effectively answering every grant-related query. From understanding the company's core product or service to articulating its mission and vision, this tool harnesses advanced AI capabilities to streamline and enhance the content creation process.\n\nYour confidentiality is paramount. Please be assured that the integrity and privacy of your information are upheld to the highest standard. This session operates in a secure environment where no external entity, be it our team at GrowthGarner or the AI providers, has access to the data you input. However, do bear in mind that upon closing this session, unsaved data will be irretrievably lost. We urge you to diligently save and backup your progress.\n\nPlease Note: This session is private and secure. No third party, including our team at GrowthGarner and the AI providers, can access the information you input here.\n\nEnsure you save your progress regularly. Once this session is closed, any unsaved information will be lost permanently.\n\nEmbark on this collaborative journey between human expertise and AI efficiency to craft compelling narratives that resonate with grant evaluators."""
+        """Navigating the complexities of grant applications requires a robust and informed knowledge base about the company in question. This dedicated platform empowers consultants to craft a nuanced, detailed, and tailored profile of the company, laying the foundation for effectively answering every grant-related query. From understanding the company's core product or service to articulating its mission and vision, this tool harnesses advanced AI capabilities to streamline and enhance the content creation process.\n\nYour confidentiality is paramount. Please be assured that the integrity and privacy of your information are upheld to the highest standard. This session operates in a secure environment where no external entity, be it our team at GrowthGarner or the AI providers, has access to the data you input. However, do bear in mind that upon closing this session, unsaved data will be irretrievably lost. We urge you to diligently save and backup your progress.\n\nPlease Note: This session is private and secure. No third party, including our team at GrowthGarner and the AI providers, can access the information you input here.\n\n**Provide any relevant company details, product descriptions, technological breakthroughs, or materials you possess. While no input is mandatory, each piece of information can enrich the narrative. Remember, everything you share stays confidential and enhances our AI's capability to assist you. The more you offer, the more tailored the output. Let's collaboratively amplify your client's story.**"""
     )
 
     # Text Input Area
@@ -196,7 +206,7 @@ def main():
             handle_button_and_llm_run(data_item, position="left")
 
         # Create a text area and 'Save to Clipboard' functionality
-        if index == 5:
+        if index == 2:
             create_text_area_and_clipboard(data_item, height=400)
         else:
             create_text_area_and_clipboard(data_item)
