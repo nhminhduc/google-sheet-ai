@@ -54,8 +54,8 @@ def apply_analytics():
     alt="Web Analytics"
     referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
     <!-- End of Statcounter Code -->""",
-        width=0,
-        height=0,
+        width=1,
+        height=1,
     )
 
 
