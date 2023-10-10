@@ -57,10 +57,40 @@ def create_save_to_clipboard(button_key, state_key):
             "Ensure you've saved all necessary information. Press the button to copy the above refined output fields to the clipboard."
         )
     with right_column:
-        if st.button(
-            "OneShot Copy to Clipboard", key=button_key, use_container_width=True
-        ):
-            pyperclip.copy(st.session_state[state_key])
+        st.components.v1.html(
+            f"""
+            <textarea id='{button_key}' readonly style='height:0;overflow:hidden;visibility:hidden;'>{st.session_state[state_key]}</textarea>
+            <button onclick='copyToClipboard()' class='streamlit-button'>OneShot Copy to Clipboard</button>
+            <script>
+                function copyToClipboard() {{
+                    navigator.clipboard.writeText(document.getElementById('{button_key}').value);
+                }}
+            </script>
+            <style>
+                .streamlit-button {{
+                    background-color: rgb(42, 56, 152);
+                    color: white;
+                    border: 1px solid rgba(255, 255, 255, 0.2);
+                    border-radius: 0.5rem;
+                    padding: .5rem;
+                    font-size: 1rem;
+                    cursor: pointer;
+                }}
+                .streamlit-button:hover {{
+                    border-color: rgb(61, 73, 160);
+                    color: rgb(61, 73, 160);
+
+                }}
+                .streamlit-button:active {{
+                    border-color: rgb(61, 73, 160);
+                    background-color: rgb(61, 73, 160);
+                    color: white;
+                }}
+            </style>
+            """,
+            width=114,
+            height=100,
+        )
 
 
 def create_text_area_and_clipboard(data_item, height=100):
