@@ -39,12 +39,12 @@ def apply_analytics():
     st.components.v1.iframe(
         """<!-- Default Statcounter code for AI sheets
     https://ai-prompt-sheet.streamlit.app/ -->
-    <script type="text/javascript">
+    <script crossorigin='anonymous' type="text/javascript">
     var sc_project=12930144; 
     var sc_invisible=1; 
     var sc_security="7a98941a"; 
     </script>
-    <script type="text/javascript"
+    <script crossorigin='anonymous' type="text/javascript"
     src="https://www.statcounter.com/counter/counter.js"
     async></script>
     <noscript><div class="statcounter"><a title="Web Analytics"
@@ -67,8 +67,8 @@ def inject_ga():
 
     analytics_js = """
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZ0GF3XPK5"></script>
-    <script>
+    <script crossorigin='anonymous' async src="https://www.googletagmanager.com/gtag/js?id=G-EZ0GF3XPK5"></script>
+    <script crossorigin='anonymous'>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
