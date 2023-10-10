@@ -1,9 +1,8 @@
 import os
-import pathlib
-import shutil
 from bs4 import BeautifulSoup
 import streamlit as st
 import streamlit_analytics
+from pathlib import Path
 
 from core.GoogleSheetPublic import fetch_data
 from core.OpenAI import llm_run
@@ -59,31 +58,30 @@ def apply_analytics():
     )
 
 
-def inject_ga():
-    """Add this in your streamlit app.py
-    see https://github.com/streamlit/streamlit/issues/969
-    """
-    # replace G-EZ0GF3XPK5 to your web app's ID
-
-    analytics_js = """
+def inject_ga4(ga4_id: str):
+    # Get Streamlit static path
+    static_path = Path(st.__path__[0]) / "static"
+    # Get the index.html file
+    index_path = static_path / "index.html"
+    # Read the content
+    index_content = index_path.read_text()
+    # Create a BeautifulSoup object and specify the parser
+    soup = BeautifulSoup(index_content, "html.parser")
+    # Create the GA4 script tag
+    ga4_script = f"""
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script crossorigin='anonymous' async src="https://www.googletagmanager.com/gtag/js?id=G-EZ0GF3XPK5"></script>
-    <script crossorigin='anonymous'>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-EZ0GF3XPK5');
+    <script async src="https://www.googletagmanager.com/gtag/js?id={ga4_id}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){{dataLayer.push(arguments);}}
+      gtag('js', new Date());
+      gtag('config', '{ga4_id}');
     </script>
-    <div id="G-EZ0GF3XPK5"></div>
     """
-    analytics_id = "G-EZ0GF3XPK5"
-
-    st.components.v1.iframe(analytics_js, width=1, height=1)
-    st.components.v1.html(
-        """<img src="https://www.google-analytics.com/collect?v=2&tid=G-EZ0GF3XPK5&cid=555&t=event&en=eventName">""",
-        width=1,
-        height=1,
-    )
+    # Insert the GA4 script tag into the head of the HTML
+    soup.head.insert(1, BeautifulSoup(ga4_script, "html.parser"))
+    # Write the modified HTML back to the file
+    index_path.write_text(str(soup))
 
 
 def create_save_to_clipboard(button_key, state_key):
@@ -218,7 +216,7 @@ def handle_button_and_llm_run(data_item, position="left"):
 
 
 def main():
-    inject_ga()
+    inject_ga4("G-EZ0GF3XPK5")
     apply_analytics()
     apply_custom_css()
 
