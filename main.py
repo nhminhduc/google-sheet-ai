@@ -72,7 +72,7 @@ def create_save_to_clipboard(button_key, state_key):
                     border: 1px solid rgba(255, 255, 255, 0.2);
                     border-radius: 0.5rem;
                     padding: .5rem;
-                    font-size: 1rem;
+                    font-size: 0.9rem;
                     cursor: pointer;
                 }}
                 .streamlit-button:hover {{
