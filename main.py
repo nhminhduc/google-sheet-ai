@@ -170,7 +170,6 @@ def handle_button_and_llm_run(data_item, position="left"):
 def main():
     apply_analytics()
     apply_custom_css()
-    st.title("Grants OneShot")
 
     data = fetch_data()
 
@@ -208,4 +207,5 @@ if __name__ == "__main__":
     with streamlit_analytics.track(
         unsafe_password=os.environ.get("ANALYTICS_PASSWORD")
     ):
+        st.image("logo.jpeg", width=720)
         main()
