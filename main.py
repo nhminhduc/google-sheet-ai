@@ -53,7 +53,9 @@ def apply_analytics():
     src="https://c.statcounter.com/12930144/0/7a98941a/1/"
     alt="Web Analytics"
     referrerPolicy="no-referrer-when-downgrade"></a></div></noscript>
-    <!-- End of Statcounter Code -->"""
+    <!-- End of Statcounter Code -->""",
+        width=0,
+        height=0,
     )
 
 
