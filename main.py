@@ -22,6 +22,9 @@ def apply_custom_css():
             h1, h2, h3, h4, h5, h6 {
                 font-family: 'Poppins', sans-serif;
             }
+            footer {
+                visibility: hidden !important;
+            }
         </style>
     """
     st.markdown(custom_css, unsafe_allow_html=True)
@@ -34,11 +37,11 @@ def apply_analytics():
     ga_code = """
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZ0GF3XPK5"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-    gtag('config', 'G-EZ0GF3XPK5');
+        gtag('config', 'G-EZ0GF3XPK5');
     </script>
     """
     st.markdown(ga_code, unsafe_allow_html=True)
@@ -51,15 +54,16 @@ def create_save_to_clipboard(button_key, state_key):
     left_column, right_column = st.columns([5, 1])
     with left_column:
         st.write(
-            "Before ending your session, ensure you've saved all necessary information. "
-            "Use the button below to copy the above refined output fields to your clipboard."
+            "Ensure you've saved all necessary information. Press the button to copy the above refined output fields to the clipboard."
         )
     with right_column:
-        if st.button("Save to Clipboard", key=button_key, use_container_width=True):
+        if st.button(
+            "OneShot Copy to Clipboard", key=button_key, use_container_width=True
+        ):
             pyperclip.copy(st.session_state[state_key])
 
 
-def create_text_area_and_clipboard(data_item):
+def create_text_area_and_clipboard(data_item, height=100):
     """
     Creates a text area and clipboard functionality based on data_item.
     """
@@ -71,6 +75,7 @@ def create_text_area_and_clipboard(data_item):
         label_visibility="collapsed",
         key=f"text_area_{data_item['name']}",
         value=st.session_state.get(data_item["name"], ""),
+        height=height,
     )
 
     create_save_to_clipboard(f"copy_btn_{data_item['name']}", data_item["name"])
@@ -136,7 +141,7 @@ def handle_button_and_llm_run(data_item, position="left"):
 def main():
     apply_analytics()
     apply_custom_css()
-    st.title("Google Sheet Data")
+    st.title("Grants OneShot")
 
     data = fetch_data()
 
@@ -163,10 +168,14 @@ def main():
             handle_button_and_llm_run(data_item, position="left")
 
         # Create a text area and 'Save to Clipboard' functionality
-        create_text_area_and_clipboard(data_item)
+        if index == 5:
+            create_text_area_and_clipboard(data_item, height=400)
+        else:
+            create_text_area_and_clipboard(data_item)
 
 
 if __name__ == "__main__":
+    st.set_page_config("Grants OneShot")
     with streamlit_analytics.track(
         unsafe_password=os.environ.get("ANALYTICS_PASSWORD")
     ):
