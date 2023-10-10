@@ -21,6 +21,9 @@ def apply_custom_css():
             h1, h2, h3, h4, h5, h6 {
                 font-family: 'Poppins', sans-serif;
             }
+            header {
+                visibility: hidden !important;
+            }
             footer {
                 visibility: hidden !important;
             }
