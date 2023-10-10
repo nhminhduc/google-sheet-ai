@@ -14,6 +14,7 @@ openai = "*"
 streamlit = "*"
 streamlit-analytics = "*"
 beautifulsoup4 = "*"
+lxml = "*"
 
 [dev-packages]
 
