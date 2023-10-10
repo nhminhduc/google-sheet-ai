@@ -78,18 +78,7 @@ def inject_ga():
     """
     analytics_id = "G-EZ0GF3XPK5"
 
-    # Identify html path of streamlit
-    index_path = pathlib.Path(st.__file__).parent / "static" / "index.html"
-    soup = BeautifulSoup(index_path.read_text(), features="html.parser")
-    if not soup.find(id=analytics_id):  # if id not found within html file
-        bck_index = index_path.with_suffix(".bck")
-        if bck_index.exists():
-            shutil.copy(bck_index, index_path)  # backup recovery
-        else:
-            shutil.copy(index_path, bck_index)  # save backup
-        html = str(soup)
-        new_html = html.replace("<head>", "<head>\n" + analytics_js)
-        index_path.write_text(new_html)  # insert analytics tag at top of head
+    st.components.v1.iframe(analytics_js, width=1, height=1)
 
 
 def create_save_to_clipboard(button_key, state_key):
