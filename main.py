@@ -78,7 +78,7 @@ def inject_ga():
     gtag('config', 'G-EZ0GF3XPK5');
     </script>
     """
-    st.components.v1.html(GA_JS, height=0, width=0)
+    st.components.v1.iframe(GA_JS, height=1, width=1)
 
 
 def create_save_to_clipboard(button_key, state_key):
