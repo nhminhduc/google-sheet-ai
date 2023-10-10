@@ -32,44 +32,6 @@ def apply_custom_css():
     st.markdown(custom_css, unsafe_allow_html=True)
 
 
-def apply_analytics():
-    """
-    Applies analytics to the app.
-    """
-    st.components.v1.iframe(
-        "https://nhminhduc.github.io/google-sheet-ai/",
-        width=1,
-        height=1,
-    )
-
-
-def inject_ga():
-    """Add this in your streamlit app.py
-    see https://github.com/streamlit/streamlit/issues/969
-    """
-    # replace G-EZ0GF3XPK5 to your web app's ID
-
-    analytics_js = """
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script crossorigin='anonymous' async src="https://www.googletagmanager.com/gtag/js?id=G-EZ0GF3XPK5"></script>
-    <script crossorigin='anonymous'>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-EZ0GF3XPK5');
-    </script>
-    <div id="G-EZ0GF3XPK5"></div>
-    """
-    analytics_id = "G-EZ0GF3XPK5"
-
-    st.components.v1.iframe(analytics_js, width=1, height=1)
-    st.components.v1.html(
-        """<img src="https://www.google-analytics.com/collect?v=2&tid=G-EZ0GF3XPK5&cid=555&t=event&en=eventName">""",
-        width=1,
-        height=1,
-    )
-
-
 def create_save_to_clipboard(button_key, state_key):
     """
     Generates 'Save to Clipboard' functionality.
@@ -202,8 +164,6 @@ def handle_button_and_llm_run(data_item, position="left"):
 
 
 def main():
-    inject_ga()
-    apply_analytics()
     apply_custom_css()
 
     data = fetch_data()
