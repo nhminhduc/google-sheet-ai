@@ -48,7 +48,7 @@ def inject_ga():
     # https://developers.google.com/analytics/devguides/collection/analyticsjs
     GA_JS = """
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZ0GF3XPK5"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EZ0GF3XPK5" >id="google_analytics"</script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
