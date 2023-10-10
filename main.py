@@ -75,11 +75,15 @@ def inject_ga():
         gtag('config', 'G-EZ0GF3XPK5');
     </script>
     <div id="G-EZ0GF3XPK5"></div>
-    <img src="https://www.google-analytics.com/collect?v=2&tid=G-EZ0GF3XPK5&cid=555&t=event&en=eventName">
     """
     analytics_id = "G-EZ0GF3XPK5"
 
     st.components.v1.iframe(analytics_js, width=1, height=1)
+    st.components.v1.html(
+        """<img src="https://www.google-analytics.com/collect?v=2&tid=G-EZ0GF3XPK5&cid=555&t=event&en=eventName">""",
+        width=1,
+        height=1,
+    )
 
 
 def create_save_to_clipboard(button_key, state_key):
